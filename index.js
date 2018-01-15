@@ -6,6 +6,39 @@ const package = require('./template/package')
 const prompt = require('prompt')
 const prompts = require('./prompts')
 
+function doMerge() {
+  const dependencies = package.dependencies
+  const devDependencies = package.devDependencies
+  let newPackage = {}
+
+  if (fs.existsSync('package.json')) {
+    newPackage = JSON.parse(fs.readFileSync('package.json', 'utf-8'))
+  } else {
+    newPackage = {}
+  }
+
+  // Merge package.jsons
+  Object.keys(package).map(key => {
+    if (typeof package[key] === 'object') {
+      newPackage[key] = Object.assign({}, newPackage[key], package[key])
+    }
+  })
+
+  // Copy template over
+  fs.copy(process.mainModule.filename.replace('index.js', '') + 'template', process.env.PWD + '/')
+    .catch(err => console.error(err))
+    .then(() => {
+
+      prompts.notifyCopySuccess()
+
+      // Overwrite package.json, retaining previous data
+      fs.writeFileSync('package.json', JSON.stringify(newPackage))
+
+      performYarnInstall()
+
+    })
+}
+
 function performYarnInstall() {
   const child = spawn('yarn')
   child.stdout.on('data', (data) => console.log(`${data}`))
@@ -37,43 +70,18 @@ if (!fs.existsSync('.git')) {
         prompt.get(prompts.noPackageJSON, function (error, result) {
           if (!error && result && (/y/i).test(result.confirm)) {
 
+            doMerge()
+
           } else {
             process.exit()
           }
         })
 
-      }
-
-      const dependencies = package.dependencies
-      const devDependencies = package.devDependencies
-      let newPackage = {}
-
-      if (fs.existsSync('package.json')) {
-        newPackage = JSON.parse(fs.readFileSync('package.json', 'utf-8'))
       } else {
-        newPackage = {}
+
+        doMerge()
+
       }
-
-      // Merge package.jsons
-      Object.keys(package).map(key => {
-        if (typeof package[key] === 'object') {
-          newPackage[key] = Object.assign({}, newPackage[key], package[key])
-        }
-      })
-
-      // Copy template over
-      fs.copy(process.mainModule.filename.replace('index.js', '') + 'template', process.env.PWD + '/')
-        .catch(err => console.error(err))
-        .then(() => {
-
-          prompts.notifyCopySuccess()
-
-          // Overwrite package.json, retaining previous data
-          fs.writeFileSync('package.json', JSON.stringify(newPackage))
-
-          performYarnInstall()
-
-        })
 
     } else {
       process.exit()
