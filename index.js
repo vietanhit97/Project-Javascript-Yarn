@@ -68,6 +68,7 @@ if (!fs.existsSync('.git')) {
       if (!fs.existsSync('package.json')) {
 
         prompt.get(prompts.noPackageJSON, function (error, result) {
+
           if (!error && result && (/y/i).test(result.confirm)) {
 
             doMerge()
@@ -75,12 +76,11 @@ if (!fs.existsSync('.git')) {
           } else {
             process.exit()
           }
+
         })
 
       } else {
-
         doMerge()
-
       }
 
     } else {
