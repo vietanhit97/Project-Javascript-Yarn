@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is an opinionated, extremely-bare-bones JavaScript project template.
+An opinionated, extremely-bare-bones JavaScript project template.
 
 ## Why did you make this?
 
