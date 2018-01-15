@@ -1,6 +1,6 @@
 {
   "name": "javascript-project-boilerplate",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "repository": "https://github.com/isaachinman/javascript-project-boilerplate.git",
   "author": "Isaac Hinman | 2017",
@@ -10,6 +10,8 @@
     "javascript-project-boilerplate": "index.js"
   },
   "dependencies": {
-    "fs-extra": "^5.0.0"
+    "colors": "^1.1.2",
+    "fs-extra": "^5.0.0",
+    "prompt": "^1.0.0"
   }
 }
