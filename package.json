@@ -2,6 +2,9 @@
   "name": "javascript-project-boilerplate",
   "version": "0.3.2",
   "main": "index.js",
+  "engines": {
+    "node": ">=9"
+  },
   "repository": "https://github.com/isaachinman/javascript-project-boilerplate.git",
   "author": "Isaac Hinman | 2017",
   "license": "MIT",
