@@ -6,6 +6,13 @@ const package = require('./template/package')
 const prompt = require('prompt')
 const prompts = require('./prompts')
 
+// If there is no .gitignore, first write
+// a dummy file to later be overwritten.
+// https://github.com/isaachinman/javascript-project-boilerplate/issues/1
+if (!fs.existsSync('.gitignore')) {
+  fs.writeFileSync('.gitignore')
+}
+
 function doMerge() {
   const dependencies = package.dependencies
   const devDependencies = package.devDependencies
