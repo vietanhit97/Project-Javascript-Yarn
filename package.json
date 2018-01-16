@@ -1,6 +1,6 @@
 {
   "name": "javascript-project-boilerplate",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "index.js",
   "engines": {
     "node": ">=9"
