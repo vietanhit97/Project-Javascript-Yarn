@@ -10,7 +10,7 @@ const prompts = require('./prompts')
 // a dummy file to later be overwritten.
 // https://github.com/isaachinman/javascript-project-boilerplate/issues/1
 if (!fs.existsSync('.gitignore')) {
-  fs.writeFileSync('.gitignore')
+  fs.writeFileSync('.gitignore', fs.readFileSync('./template/.gitignore'))
 }
 
 function doMerge() {
