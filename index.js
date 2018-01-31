@@ -6,11 +6,11 @@ const package = require('./template/package')
 const prompt = require('prompt')
 const prompts = require('./prompts')
 
-// If there is no .gitignore, first write
-// a dummy file to later be overwritten.
-// https://github.com/isaachinman/javascript-project-boilerplate/issues/1
-if (!fs.existsSync('.gitignore')) {
-  fs.writeFileSync('.gitignore', fs.readFileSync('./template/.gitignore'))
+function swapGitIgnore() {
+  // Npm tampers with "special" files
+  // Have to copy gitignore and then rename
+  // https://github.com/npm/npm/issues/3763
+  fs.moveSync('gitignore', '.gitignore')
 }
 
 function doMerge() {
@@ -36,6 +36,7 @@ function doMerge() {
     .catch(err => console.error(err))
     .then(() => {
 
+      swapGitIgnore()
       prompts.notifyCopySuccess()
 
       // Overwrite package.json, retaining previous data
@@ -61,6 +62,7 @@ if (!fs.existsSync('.git')) {
   fs.copy(process.mainModule.filename.replace('index.js', '') + 'template', process.env.PWD + '/')
     .catch(err => console.error(err))
     .then(() => {
+      swapGitIgnore()
       prompts.notifyCopySuccess()
       performYarnInstall()
     })
